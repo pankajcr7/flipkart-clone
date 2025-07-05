@@ -17,9 +17,17 @@ const Searchbar = () => {
     }
 
     return (
-        <form onSubmit={handleSubmit} className="w-full sm:w-9/12 px-1 sm:px-4 py-1.5 flex justify-between items-center shadow-md bg-white rounded-sm overflow-hidden">
-            <input value={keyword} onChange={(e) => setKeyword(e.target.value)} className="text-sm flex-1 outline-none border-none placeholder-gray-500" type="text" placeholder="Search for products, brands and more" />
-            <button type="submit" className="text-primary-blue"><SearchIcon /></button>
+        <form onSubmit={handleSubmit} className="w-full px-2 sm:px-4 py-1.5 flex justify-between items-center shadow-md bg-white rounded-sm overflow-hidden">
+            <input 
+                value={keyword} 
+                onChange={(e) => setKeyword(e.target.value)} 
+                className="text-xs sm:text-sm flex-1 outline-none border-none placeholder-gray-500 min-w-0" 
+                type="text" 
+                placeholder="Search for products, brands and more" 
+            />
+            <button type="submit" className="text-primary-blue flex-shrink-0 ml-1">
+                <SearchIcon sx={{ fontSize: { xs: "18px", sm: "24px" } }} />
+            </button>
         </form>
     );
 };

@@ -131,37 +131,41 @@ const ProductDetails = () => {
                 <>
                     <MetaData title={product.name} />
                     <MinCategory />
-                    <main className="mt-12 sm:mt-0">
+                    <main className="mt-16 sm:mt-12 lg:mt-0">
 
                         {/* <!-- product image & description container --> */}
-                        <div className="w-full flex flex-col sm:flex-row bg-white sm:p-2 relative">
+                        <div className="w-full flex flex-col lg:flex-row bg-white sm:p-2 relative">
 
                             {/* <!-- image wrapper --> */}
-                            <div className="w-full sm:w-2/5 sm:sticky top-16 sm:h-screen">
+                            <div className="w-full lg:w-2/5 lg:sticky top-16 lg:h-screen">
                                 {/* <!-- imgbox --> */}
-                                <div className="flex flex-col gap-3 m-3">
-                                    <div className="w-full h-full pb-6 border relative">
+                                <div className="flex flex-col gap-2 sm:gap-3 m-2 sm:m-3">
+                                    <div className="w-full h-full pb-4 sm:pb-6 border relative">
                                         <Slider {...settings}>
                                             {product.images && product.images.map((item, i) => (
-                                                <img draggable="false" className="w-full h-96 object-contain" src={item.url} alt={product.name} key={i} />
+                                                <img draggable="false" className="w-full h-64 sm:h-80 lg:h-96 object-contain" src={item.url} alt={product.name} key={i} />
                                             ))}
                                         </Slider>
-                                        <div className="absolute top-4 right-4 shadow-lg bg-white w-9 h-9 border flex items-center justify-center rounded-full">
-                                            <span onClick={addToWishlistHandler} className={`${itemInWishlist ? "text-red-500" : "hover:text-red-500 text-gray-300"} cursor-pointer`}><FavoriteIcon sx={{ fontSize: "18px" }} /></span>
+                                        <div className="absolute top-2 sm:top-4 right-2 sm:right-4 shadow-lg bg-white w-8 h-8 sm:w-9 sm:h-9 border flex items-center justify-center rounded-full">
+                                            <span onClick={addToWishlistHandler} className={`${itemInWishlist ? "text-red-500" : "hover:text-red-500 text-gray-300"} cursor-pointer`}>
+                                                <FavoriteIcon sx={{ fontSize: { xs: "16px", sm: "18px" } }} />
+                                            </span>
                                         </div>
                                     </div>
 
-                                    <div className="w-full flex gap-3">
+                                    <div className="w-full flex gap-2 sm:gap-3">
                                         {/* <!-- add to cart btn --> */}
                                         {product.stock > 0 && (
-                                            <button onClick={itemInCart ? goToCart : addToCartHandler} className="p-4 w-1/2 flex items-center justify-center gap-2 text-white bg-primary-yellow rounded-sm shadow hover:shadow-lg">
-                                                <ShoppingCartIcon />
-                                                {itemInCart ? "GO TO CART" : "ADD TO CART"}
+                                            <button onClick={itemInCart ? goToCart : addToCartHandler} className="p-2 sm:p-4 w-1/2 flex items-center justify-center gap-1 sm:gap-2 text-white bg-primary-yellow rounded-sm shadow hover:shadow-lg text-xs sm:text-sm">
+                                                <ShoppingCartIcon sx={{ fontSize: { xs: "16px", sm: "24px" } }} />
+                                                <span className="hidden sm:inline">{itemInCart ? "GO TO CART" : "ADD TO CART"}</span>
+                                                <span className="sm:hidden">{itemInCart ? "CART" : "ADD"}</span>
                                             </button>
                                         )}
-                                        <button onClick={buyNow} disabled={product.stock < 1 ? true : false} className={product.stock < 1 ? "p-4 w-full flex items-center justify-center gap-2 text-white bg-red-600 cursor-not-allowed rounded-sm shadow hover:shadow-lg" : "p-4 w-1/2 flex items-center justify-center gap-2 text-white bg-primary-orange rounded-sm shadow hover:shadow-lg"}>
-                                            <FlashOnIcon />
-                                            {product.stock < 1 ? "OUT OF STOCK" : "BUY NOW"}
+                                        <button onClick={buyNow} disabled={product.stock < 1 ? true : false} className={product.stock < 1 ? "p-2 sm:p-4 w-full flex items-center justify-center gap-1 sm:gap-2 text-white bg-red-600 cursor-not-allowed rounded-sm shadow hover:shadow-lg text-xs sm:text-sm" : "p-2 sm:p-4 w-1/2 flex items-center justify-center gap-1 sm:gap-2 text-white bg-primary-orange rounded-sm shadow hover:shadow-lg text-xs sm:text-sm"}>
+                                            <FlashOnIcon sx={{ fontSize: { xs: "16px", sm: "24px" } }} />
+                                            <span className="hidden sm:inline">{product.stock < 1 ? "OUT OF STOCK" : "BUY NOW"}</span>
+                                            <span className="sm:hidden">{product.stock < 1 ? "OUT" : "BUY"}</span>
                                         </button>
                                         {/* <!-- add to cart btn --> */}
                                     </div>
@@ -172,25 +176,29 @@ const ProductDetails = () => {
                             {/* <!-- image wrapper --> */}
 
                             {/* <!-- product desc wrapper --> */}
-                            <div className="flex-1 py-2 px-3">
+                            <div className="flex-1 py-2 sm:py-2 px-2 sm:px-3">
 
                                 {/* <!-- whole product description --> */}
                                 <div className="flex flex-col gap-2 mb-4">
 
-                                    <h2 className="text-xl">{product.name}</h2>
+                                    <h2 className="text-lg sm:text-xl lg:text-2xl font-medium">{product.name}</h2>
                                     {/* <!-- rating badge --> */}
-                                    <span className="text-sm text-gray-500 font-medium flex gap-2 items-center">
-                                        <span className="text-xs px-1.5 py-0.5 bg-primary-green rounded-sm text-white flex items-center gap-0.5">{product.ratings && product.ratings.toFixed(1)} <StarIcon sx={{ fontSize: "12px" }} /></span>
+                                    <span className="text-xs sm:text-sm text-gray-500 font-medium flex gap-2 items-center">
+                                        <span className="text-xs px-1.5 py-0.5 bg-primary-green rounded-sm text-white flex items-center gap-0.5">
+                                            {product.ratings && product.ratings.toFixed(1)} <StarIcon sx={{ fontSize: "12px" }} />
+                                        </span>
                                         <span>{product.numOfReviews} Reviews</span>
                                     </span>
                                     {/* <!-- rating badge --> */}
 
                                     {/* <!-- price desc --> */}
                                     <span className="text-primary-green text-sm font-medium">Special Price</span>
-                                    <div className="flex items-baseline gap-2 text-3xl font-medium">
-                                        <span className="text-gray-800">₹{product.price?.toLocaleString()}</span>
-                                        <span className="text-base text-gray-500 line-through">₹{product.cuttedPrice?.toLocaleString()}</span>
-                                        <span className="text-base text-primary-green">{getDiscount(product.price, product.cuttedPrice)}%&nbsp;off</span>
+                                    <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-2">
+                                        <span className="text-2xl sm:text-3xl font-medium text-gray-800">₹{product.price?.toLocaleString()}</span>
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-sm sm:text-base text-gray-500 line-through">₹{product.cuttedPrice?.toLocaleString()}</span>
+                                            <span className="text-sm sm:text-base text-primary-green">{getDiscount(product.price, product.cuttedPrice)}%&nbsp;off</span>
+                                        </div>
                                     </div>
                                     {product.stock <= 10 && product.stock > 0 && (
                                         <span className="text-red-500 text-sm font-medium">Hurry, Only {product.stock} left!</span>

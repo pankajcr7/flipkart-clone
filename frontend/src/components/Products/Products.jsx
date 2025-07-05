@@ -67,10 +67,10 @@ const Products = () => {
             <main className="w-full mt-14 sm:mt-0">
 
                 {/* <!-- row --> */}
-                <div className="flex gap-3 mt-2 sm:mt-2 sm:mx-3 m-auto mb-7">
+                <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 mt-2 sm:mt-2 sm:mx-3 m-auto mb-7">
 
                     {/* <!-- sidebar column  --> */}
-                    <div className="hidden sm:flex flex-col w-1/5 px-1">
+                    <div className="hidden sm:flex flex-col w-full sm:w-1/5 px-1">
 
                         {/* <!-- nav tiles --> */}
                         <div className="flex flex-col bg-white rounded-sm shadow">
@@ -188,7 +188,7 @@ const Products = () => {
                         {loading ? <Loader /> : (
                             <div className="flex flex-col gap-2 pb-4 justify-center items-center w-full overflow-hidden bg-white">
 
-                                <div className="grid grid-cols-1 sm:grid-cols-4 w-full place-content-start overflow-hidden pb-4 border-b">
+                                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 w-full place-content-start overflow-hidden pb-4 border-b gap-1 sm:gap-2 px-1 sm:px-0">
                                     {products?.map((product) => (
                                             <Product {...product} key={product._id} />
                                         ))

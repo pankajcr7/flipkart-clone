@@ -1,15 +1,32 @@
 .slick-arrow.slick-prev,
 .slick-arrow.slick-next {
-    width: 47px;
-    height: 104px;
+    width: 30px;
+    height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 8px 12px rgba(0,0,0,.2);
+    box-shadow: 0 4px 8px rgba(0,0,0,.2);
     background: #fcfcfc;
     color: #000;
     z-index: 1;
 }
+
+@media (min-width: 640px) {
+    .slick-arrow.slick-prev,
+    .slick-arrow.slick-next {
+        width: 40px;
+        height: 80px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .slick-arrow.slick-prev,
+    .slick-arrow.slick-next {
+        width: 47px;
+        height: 104px;
+    }
+}
+
 .slick-prev {
     left: 0;
     border-radius: 0 5px 5px 0;
@@ -21,4 +38,12 @@
 .slick-prev::before,
 .slick-next::before {
     display: none;
+}
+
+/* Hide arrows on very small screens */
+@media (max-width: 480px) {
+    .slick-arrow.slick-prev,
+    .slick-arrow.slick-next {
+        display: none !important;
+    }
 }
