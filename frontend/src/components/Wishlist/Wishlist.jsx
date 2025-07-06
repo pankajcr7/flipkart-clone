@@ -13,7 +13,7 @@ const Wishlist = () => {
             <MetaData title="Wishlist | Flipkart" />
 
             <MinCategory />
-            <main className="w-full mt-12 sm:mt-0">
+            <main className="w-full mt-16 sm:mt-20">
 
                 <div className="flex gap-3.5 sm:w-11/12 sm:mt-4 m-auto mb-7">
 

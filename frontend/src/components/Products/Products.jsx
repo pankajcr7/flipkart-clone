@@ -64,7 +64,7 @@ const Products = () => {
             <MetaData title="All Products | Flipkart" />
 
             <MinCategory />
-            <main className="w-full mt-14 sm:mt-0">
+            <main className="w-full mt-16 sm:mt-20">
 
                 {/* <!-- row --> */}
                 <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 mt-2 sm:mt-2 sm:mx-3 m-auto mb-7">

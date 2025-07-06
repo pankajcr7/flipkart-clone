@@ -1,5 +1,5 @@
 const asyncErrorHandler = require('../middlewares/asyncErrorHandler');
-// const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const paytm = require('paytmchecksum');
 const Razorpay = require('razorpay');
 const https = require('https');
@@ -8,24 +8,79 @@ const ErrorHandler = require('../utils/errorHandler');
 const { v4: uuidv4 } = require('uuid');
 const crypto = require('crypto');
 
-// exports.processPayment = asyncErrorHandler(async (req, res, next) => {
-//     const myPayment = await stripe.paymentIntents.create({
-//         amount: req.body.amount,
-//         currency: "inr",
-//         metadata: {
-//             company: "Flipkart",
-//         },
-//     });
+// Stripe Payment Intent
+exports.createStripePaymentIntent = asyncErrorHandler(async (req, res, next) => {
+    const { amount, currency = "inr" } = req.body;
 
-//     res.status(200).json({
-//         success: true,
-//         client_secret: myPayment.client_secret, 
-//     });
-// });
+    try {
+        const paymentIntent = await stripe.paymentIntents.create({
+            amount: Math.round(amount * 100), // amount in smallest currency unit (paise)
+            currency,
+            metadata: {
+                company: "Flipkart",
+            },
+        });
 
-// exports.sendStripeApiKey = asyncErrorHandler(async (req, res, next) => {
-//     res.status(200).json({ stripeApiKey: process.env.STRIPE_API_KEY });
-// });
+        res.status(200).json({
+            success: true,
+            client_secret: paymentIntent.client_secret,
+            payment_intent_id: paymentIntent.id,
+        });
+    } catch (error) {
+        return next(new ErrorHandler(error.message, 500));
+    }
+});
+
+// Confirm Stripe Payment
+exports.confirmStripePayment = asyncErrorHandler(async (req, res, next) => {
+    const { payment_intent_id, payment_method_id } = req.body;
+
+    try {
+        const paymentIntent = await stripe.paymentIntents.confirm(payment_intent_id, {
+            payment_method: payment_method_id,
+        });
+
+        if (paymentIntent.status === 'succeeded') {
+            // Save payment to database
+            await Payment.create({
+                stripePaymentIntentId: paymentIntent.id,
+                stripePaymentMethodId: payment_method_id,
+                status: 'SUCCESS',
+                orderId: paymentIntent.id,
+                txnId: paymentIntent.id,
+                amount: paymentIntent.amount / 100,
+                currency: paymentIntent.currency,
+                resultInfo: {
+                    resultStatus: 'TXN_SUCCESS',
+                    resultCode: '01',
+                    resultMsg: 'Payment successful via Stripe'
+                }
+            });
+
+            res.status(200).json({
+                success: true,
+                message: "Payment confirmed successfully",
+                payment_intent: paymentIntent,
+            });
+        } else {
+            res.status(400).json({
+                success: false,
+                message: "Payment confirmation failed",
+                status: paymentIntent.status,
+            });
+        }
+    } catch (error) {
+        return next(new ErrorHandler(error.message, 500));
+    }
+});
+
+// Get Stripe Publishable Key
+exports.getStripePublishableKey = asyncErrorHandler(async (req, res, next) => {
+    res.status(200).json({ 
+        success: true,
+        publishableKey: process.env.STRIPE_PUBLISHABLE_KEY 
+    });
+});
 
 // Process Payment
 exports.processPayment = asyncErrorHandler(async (req, res, next) => {

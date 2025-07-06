@@ -7,6 +7,7 @@ import { cartReducer } from './reducers/cartReducer';
 import { saveForLaterReducer } from './reducers/saveForLaterReducer';
 import { allOrdersReducer, myOrdersReducer, newOrderReducer, orderDetailsReducer, orderReducer, paymentStatusReducer } from './reducers/orderReducer';
 import { wishlistReducer } from './reducers/wishlistReducer';
+import { stripePaymentReducer, stripeKeyReducer } from './reducers/stripeReducer';
 
 const reducer = combineReducers({
     user: userReducer,
@@ -30,6 +31,8 @@ const reducer = combineReducers({
     reviews: productReviewsReducer,
     review: reviewReducer,
     wishlist: wishlistReducer,
+    stripePayment: stripePaymentReducer,
+    stripeKey: stripeKeyReducer,
 });
 
 let initialState = {

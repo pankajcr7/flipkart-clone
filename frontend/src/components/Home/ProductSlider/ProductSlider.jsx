@@ -21,11 +21,15 @@ const ProductSlider = ({ title, tagline }) => {
             </div>
             <hr />
             {loading ? null :
-                <Slider {...settings} className="flex items-center justify-between p-1">
-                    {products && getRandomProducts(products, 12).map((product) => (
-                        <Product {...product} key={product._id} />
-                    ))}
-                </Slider>
+                <div className="px-4 py-2">
+                    <Slider {...settings}>
+                        {products && getRandomProducts(products, 12).map((product) => (
+                            <div key={product._id} className="px-2">
+                                <Product {...product} />
+                            </div>
+                        ))}
+                    </Slider>
+                </div>
             }
 
         </section>
